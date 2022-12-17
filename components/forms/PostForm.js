@@ -10,24 +10,23 @@ import { createPost, updatePost } from '../../api/postData';
 
 const initialState = {
   name: ' ',
-  // id: ' ',
-  user_id: null,
-  category_id: null,
+  user: null,
+  categoryId: null,
   category: ' ',
   title: ' ',
-  publication_date: ' ',
-  image_url: ' ',
+  publicationDate: ' ',
+  imageUrl: ' ',
   content: ' ',
   approved: null,
-  first_name: ' ',
-  reaction_id: null,
+  firstName: ' ',
+  reactionId: null,
 };
 
-export default function PostForm({ obj }) {
+export default function PostForm({ obj, user }) {
   const [formInput, setFormInput] = useState(initialState);
   // const { user } = loginUser('res');
   const router = useRouter();
-
+  console.warn(user, 'user');
   useEffect(() => {
     if (obj.id)setFormInput(obj);
   }, [obj]);
@@ -46,7 +45,7 @@ export default function PostForm({ obj }) {
     if (obj.id) {
       updatePost(formInput).then(() => router.push('/'));
     } else {
-      const payload = { ...formInput };
+      const payload = { ...formInput, user: user.uid };
       createPost(payload).then(() => {
         router.push('/');
       });
@@ -60,7 +59,7 @@ export default function PostForm({ obj }) {
         <Form.Control type="text" placeholder="Enter Post Title" name="title" value={formInput.title} onChange={handleChange} required />
       </FloatingLabel>
       <FloatingLabel controlId="floatingInput2" label="Image" className="mb-3">
-        <Form.Control type="url" placeholder="Enter an image url" name="image_url" value={formInput.image_url} onChange={handleChange} required />
+        <Form.Control type="url" placeholder="Enter an image url" name="imageUrl" value={formInput.image_url} onChange={handleChange} required />
       </FloatingLabel>
       <FloatingLabel controlId="floatingInput1" label="Content" className="mb-3">
         <Form.Control type="text" placeholder="Content" name="content" value={formInput.content} onChange={handleChange} required />
@@ -89,18 +88,20 @@ export default function PostForm({ obj }) {
 }
 
 PostForm.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
-    user_id: PropTypes.number,
-    category_id: PropTypes.number,
+    categoryId: PropTypes.number,
     category: PropTypes.string,
     title: PropTypes.string,
-    publication_date: PropTypes.string,
-    image_url: PropTypes.string,
+    publicationDate: PropTypes.string,
+    imageUrl: PropTypes.string,
     content: PropTypes.string,
     approved: PropTypes.number,
-    // first_name: PropTypes.string,
-    // reaction_id: PropTypes.string,
+    // firstName: PropTypes.string,
+    // reactionId: PropTypes.string,
   }),
 };
 
