@@ -12,7 +12,6 @@ const initialState = {
   email: '',
   createdOn: '',
   active: '',
-  isStaff: '',
 };
 function RegisterForm({ user, updateUser }) {
   const [formData, setFormData] = useState(initialState);
