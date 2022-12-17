@@ -4,23 +4,40 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { registerUser } from '../utils/auth'; // Update with path to registerUser
 
+const initialState = {
+  firstName: '',
+  lastName: '',
+  bio: '',
+  profileImageUrl: '',
+  email: '',
+  createdOn: '',
+  active: '',
+  isStaff: '',
+};
 function RegisterForm({ user, updateUser }) {
-  const [formData, setFormData] = useState({
-    bio: '',
-    uid: user.uid,
-  });
+  const [formData, setFormData] = useState(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerUser(formData).then(() => updateUser(user.uid));
+    registerUser(user, formData).then(() => updateUser(user.uid));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Gamer Bio</Form.Label>
-        <Form.Control as="textarea" name="bio" required placeholder="Enter your Bio" onChange={({ target }) => setFormData((prev) => ({ ...prev, [target.name]: target.value }))} />
-        <Form.Text className="text-muted">Let other gamers know a little bit about you...</Form.Text>
+        <Form.Control name="firstName" placeholder="First Name" required value={formData.firstName} onChange={handleChange} />
+        <Form.Control name="lastName" placeholder="Last Name" required value={formData.lastName} onChange={handleChange} />
+        <Form.Control name="bio" as="textarea" placeholder="About Me" required value={formData.bio} onChange={handleChange} />
+        <Form.Control name="profileImageUrl" placeholder="Profile Image Url" required value={formData.profileImageUrl} onChange={handleChange} />
+        <Form.Control name="email" placeholder="Email Address" required value={formData.email} onChange={handleChange} />
       </Form.Group>
       <Button variant="primary" type="submit">
         Submit
