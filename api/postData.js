@@ -28,8 +28,8 @@ const createPost = (post) => new Promise((resolve, reject) => {
     user: post.user,
     category: Number(post.category_id),
     title: post.title,
-    publicationDate: post.publication_date,
-    imagerl: post.image_url,
+    publication_date: post.publicationDate,
+    image_url: post.imageUrl,
     content: post.content,
   };
   fetch(`${clientCredentials.databaseURL}/posts`, {

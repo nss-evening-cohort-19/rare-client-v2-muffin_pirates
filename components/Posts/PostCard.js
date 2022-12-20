@@ -38,7 +38,9 @@ PostCard.propTypes = {
   postObj: PropTypes.shape({
     id: PropTypes.number,
     user_id: PropTypes.number,
-    category: PropTypes.number,
+    category: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }).isRequired,
     title: PropTypes.string,
     publication_date: PropTypes.string,
     image_url: PropTypes.string,
