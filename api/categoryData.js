@@ -21,12 +21,10 @@ const getSingleCategory = (categoryId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-const createCategory = (category) => new Promise((resolve, reject) => {
+const createCategory = (category, user) => new Promise((resolve, reject) => {
   const categoryObj = {
-    author: category.user,
-    post: category.post_id,
-    content: category.content,
-    createdOn: category.created_on,
+    label: category.label,
+    user_id: user.uid,
   };
   fetch(`${clientCredentials.databaseURL}/categories`, {
     method: 'POST',
@@ -39,13 +37,10 @@ const createCategory = (category) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-const updateCategory = (category) => new Promise((resolve, reject) => {
+const updateCategory = (category, user) => new Promise((resolve, reject) => {
   const categoryObj = {
-    id: category.id,
-    author: category.user,
-    post: category.post_id,
-    content: category.content,
-    createdOn: category.created_on,
+    label: category.label,
+    user_id: user.uid,
   };
   fetch(`${clientCredentials.databaseURL}/categories/${category.id}`, {
     method: 'PUT',

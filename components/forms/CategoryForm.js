@@ -3,23 +3,24 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
-import { Button } from 'react-bootstrap';
+// import Form from 'react-bootstrap/Form';
+import { Button, Form } from 'react-bootstrap';
 import { createCategory, getCategories, updateCategory } from '../../api/categoryData';
 
 const initialState = {
-  label: '',
+  label: ' ',
 };
 
-export default function CategoryForm({ obj }) {
+export default function CategoryForm({ obj, user }) {
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
 
   useEffect(() => {
     getCategories().then(setFormInput);
     if (obj)setFormInput(obj);
-  }, [obj]);
+  }, [obj, user]);
 
+  console.warn(formInput);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
@@ -27,12 +28,13 @@ export default function CategoryForm({ obj }) {
       [name]: value,
     }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (obj?.id) {
-      updateCategory(formInput, obj).then(() => router.push('/categories'));
+    if (obj.id) {
+      updateCategory(formInput, obj, user).then(() => router.push('/categories'));
     } else {
-      createCategory(...formInput).then(() => {
+      createCategory(formInput, user).then(() => {
         router.push('/categories');
       });
     }
@@ -40,7 +42,7 @@ export default function CategoryForm({ obj }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h2 className="text-white mt-5">{obj ? 'Update' : 'Create'} Categories</h2>
+      <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Categories</h2>
       <FloatingLabel
         controlId="floatingInput1"
         label="Label"
@@ -57,7 +59,7 @@ export default function CategoryForm({ obj }) {
       </FloatingLabel>
       <Button
         type="submit"
-      >{obj ? 'Update' : 'Create'}
+      >{obj.id ? 'Update' : 'Create'}
         Category
       </Button>
     </Form>
@@ -65,13 +67,13 @@ export default function CategoryForm({ obj }) {
 }
 
 CategoryForm.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+  }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
   }),
-  user: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 CategoryForm.defaultProps = {
