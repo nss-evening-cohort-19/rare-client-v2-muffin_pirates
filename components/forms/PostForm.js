@@ -13,7 +13,6 @@ const initialState = {
   id: null,
   category: ' ',
   title: ' ',
-  publicationDate: ' ',
   imageUrl: ' ',
   content: ' ',
 };
@@ -65,7 +64,7 @@ const PostForm = ({ obj, user }) => {
         <Form.Group className="mb-3">
           <Form.Label>Category</Form.Label>
           <Form.Select
-            name="CategoryId"
+            name="categoryId"
             onChange={handleChange}
           >
             <option value="">Select Category</option>
@@ -94,9 +93,8 @@ PostForm.propTypes = {
   }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
-    category: PropTypes.string,
+    categoryId: PropTypes.number,
     title: PropTypes.string,
-    publicationDate: PropTypes.string,
     imageUrl: PropTypes.string,
     content: PropTypes.string,
   }),

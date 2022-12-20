@@ -26,7 +26,7 @@ const getSinglePost = (postId) => new Promise((resolve, reject) => {
 const createPost = (post) => new Promise((resolve, reject) => {
   const postObj = {
     user: post.user,
-    category: Number(post.category_id),
+    category: Number(post.categoryId),
     title: post.title,
     publication_date: post.publicationDate,
     image_url: post.imageUrl,
