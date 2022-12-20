@@ -7,11 +7,12 @@ const getComments = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSingleComment = (commentId) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/comments/${commentId}`)
+const getSingleComment = (comment) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/comments/${comment}`)
     .then((response) => response.json())
     .then((data) => {
       resolve({
+        id: data.id,
         author: data.user,
         post: data.post_id,
         content: data.content,
@@ -20,6 +21,21 @@ const getSingleComment = (commentId) => new Promise((resolve, reject) => {
     })
     .catch((error) => reject(error));
 });
+
+// const getCommentsByPost = (postId) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/comments/${postId}`)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       resolve({
+//         id: data.id,
+//         author: data.user,
+//         post: data.post_id,
+//         content: data.content,
+//         createdOn: data.created_on,
+//       });
+//     })
+//     .catch((error) => reject(error));
+// });
 
 const createComment = (comment) => new Promise((resolve, reject) => {
   const commentObj = {

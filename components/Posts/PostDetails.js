@@ -3,14 +3,18 @@ import { Badge, Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { deletePost } from '../../api/postData';
 
-export default function PostsDetails({ postObj }) {
+export default function PostsDetails({ postObj, postId }) {
   const router = useRouter();
   const deleteThisPost = () => {
     if (window.confirm(`Delete ${postObj.title}?`)) {
       deletePost(postObj.id).then(() => router.push('/'));
     }
   };
-
+  const handleClick = () => {
+    router.push({
+      pathname: `/Comments/${postId}`,
+    });
+  };
   return (
     <Card className="text-center">
       <span>
@@ -23,7 +27,7 @@ export default function PostsDetails({ postObj }) {
       <Card.Body>
         <span>
           <Card.Text>By {postObj.username}</Card.Text>
-          <Button href={`/comments/${postObj.id}`}>View Comments</Button>
+          <Button onClick={handleClick}>View Comments</Button>
           <div>
             <Badge pill bg="primary">
               😍 {postObj.love_reaction}
@@ -61,6 +65,7 @@ PostsDetails.propTypes = {
     thought_reaction: PropTypes.number,
     hate_reaction: PropTypes.number,
   }),
+  postId: PropTypes.number.isRequired,
 };
 PostsDetails.defaultProps = {
   postObj: PropTypes.shape({
