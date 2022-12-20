@@ -5,12 +5,11 @@ import PropTypes from 'prop-types';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
-// import { loginUser } from '../../utils/data/AuthManager';
 import { createPost, updatePost } from '../../api/postData';
 import { getCategories } from '../../api/categoryData';
 
 const initialState = {
-  id: null,
+  id: ' ',
   category: ' ',
   title: ' ',
   imageUrl: ' ',
@@ -19,6 +18,8 @@ const initialState = {
 
 const PostForm = ({ obj, user }) => {
   const [categories, setCategories] = useState([]);
+
+  console.warn(obj, 'object');
 
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
