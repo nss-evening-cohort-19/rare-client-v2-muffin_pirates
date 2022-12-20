@@ -3,7 +3,7 @@ import PostForm from '../../components/forms/PostForm';
 import { useAuth } from '../../utils/context/authContext';
 
 export default function NewPost() {
-  const { user } = useAuth;
+  const { user } = useAuth();
   console.warn(user, 'user2');
   return (
     <div className="create-form" style={{ height: '45rem', padding: '10%' }}>
