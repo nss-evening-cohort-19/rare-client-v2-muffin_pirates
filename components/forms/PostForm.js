@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
 // import { loginUser } from '../../utils/data/AuthManager';
 import { createPost, updatePost } from '../../api/postData';
+import { getCategories } from '../../api/categoryData';
 
 const initialState = {
   name: ' ',
@@ -24,11 +25,13 @@ const initialState = {
 };
 
 export default function PostForm({ obj }) {
+  const [categories, setCategories] = useState([]);
   const [formInput, setFormInput] = useState(initialState);
   // const { user } = loginUser('res');
   const router = useRouter();
 
   useEffect(() => {
+    getCategories().then(setCategories);
     if (obj.id)setFormInput(obj);
   }, [obj]);
 
@@ -65,24 +68,27 @@ export default function PostForm({ obj }) {
       <FloatingLabel controlId="floatingInput1" label="Content" className="mb-3">
         <Form.Control type="text" placeholder="Content" name="content" value={formInput.content} onChange={handleChange} required />
       </FloatingLabel>
-      <FloatingLabel controlId="floatingSelect">
+      <Form.Group className="mb-3">
+        <Form.Label>Category</Form.Label>
         <Form.Select
-          aria-label="Category"
-          name="category"
-          type="text"
-          value={formInput.category}
+          name="CategoryId"
           onChange={handleChange}
-          className="mb-3"
-          required
         >
-          <option value="">Category</option>
-          <option value="News">News</option>
-          <option value="Business">Business</option>
-          <option value="Hobbies">Hobbies</option>
-          <option value="Education">Education</option>
-          <option value="Other">Other</option>
+          <option value="">Select Category</option>
+          {
+            categories?.map((category) => (
+              <option
+                defaultValue={category.id === formInput.categoryId}
+                key={category.id}
+                value={category.id}
+              >
+                {category.label}
+              </option>
+            ))
+          }
         </Form.Select>
-      </FloatingLabel>
+      </Form.Group>
+
       <Button type="submit">{obj.id ? 'Update' : 'Create'} Post</Button>
     </Form>
   );
