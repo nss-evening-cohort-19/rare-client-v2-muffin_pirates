@@ -11,16 +11,16 @@ const initialState = {
   label: ' ',
 };
 
-export default function CategoryForm({ obj, user }) {
+export default function CategoryForm({ obj }) {
+  const [categories, setCategories] = useState([]);
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
 
   useEffect(() => {
-    getCategories().then(setFormInput);
+    getCategories().then(setCategories);
     if (obj)setFormInput(obj);
-  }, [obj, user]);
+  }, [obj]);
 
-  console.warn(formInput);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prevState) => ({
@@ -28,13 +28,13 @@ export default function CategoryForm({ obj, user }) {
       [name]: value,
     }));
   };
-
+  console.warn(categories);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updateCategory(formInput, obj, user).then(() => router.push('/categories'));
+      updateCategory(formInput, obj.id).then(() => router.push('/categories'));
     } else {
-      createCategory(formInput, user).then(() => {
+      createCategory(formInput).then(() => {
         router.push('/categories');
       });
     }
@@ -52,7 +52,7 @@ export default function CategoryForm({ obj, user }) {
           type="text"
           placeholder="Enter Category Label"
           name="label"
-          value={setFormInput.content}
+          value={formInput.label}
           onChange={handleChange}
           required
         />
@@ -67,9 +67,9 @@ export default function CategoryForm({ obj, user }) {
 }
 
 CategoryForm.propTypes = {
-  user: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-  }).isRequired,
+  // user: PropTypes.shape({
+  //   uid: PropTypes.string.isRequired,
+  // }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
