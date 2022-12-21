@@ -10,34 +10,28 @@ import { createPost, updatePost } from '../../api/postData';
 import { getCategories } from '../../api/categoryData';
 
 const initialState = {
-  name: ' ',
-  // id: ' ',
-  user_id: null,
-  category_id: null,
+  id: null,
   category: ' ',
   title: ' ',
-  publication_date: ' ',
-  image_url: ' ',
+  imageUrl: ' ',
   content: ' ',
-  approved: null,
-  first_name: ' ',
-  reaction_id: null,
 };
 
-export default function PostForm({ obj }) {
+const PostForm = ({ obj, user }) => {
   const [categories, setCategories] = useState([]);
+
   const [formInput, setFormInput] = useState(initialState);
-  // const { user } = loginUser('res');
   const router = useRouter();
 
   useEffect(() => {
     getCategories().then(setCategories);
-    if (obj.id)setFormInput(obj);
+    if (obj.id) {
+      setFormInput(obj);
+    }
   }, [obj]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormInput((prevState) => ({
       ...prevState,
       [name]: value,
@@ -47,12 +41,10 @@ export default function PostForm({ obj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updatePost(formInput).then(() => router.push('/'));
+      updatePost(user.uid, formInput, obj.id).then(() => router.push('/'));
     } else {
-      const payload = { ...formInput };
-      createPost(payload).then(() => {
-        router.push('/');
-      });
+      const payload = { ...formInput, user: user.uid };
+      createPost(payload).then(() => router.push('/'));
     }
   };
 
@@ -63,19 +55,20 @@ export default function PostForm({ obj }) {
         <Form.Control type="text" placeholder="Enter Post Title" name="title" value={formInput.title} onChange={handleChange} required />
       </FloatingLabel>
       <FloatingLabel controlId="floatingInput2" label="Image" className="mb-3">
-        <Form.Control type="url" placeholder="Enter an image url" name="image_url" value={formInput.image_url} onChange={handleChange} required />
+        <Form.Control type="url" placeholder="Enter an image url" name="imageUrl" value={formInput.imageUrl} onChange={handleChange} required />
       </FloatingLabel>
       <FloatingLabel controlId="floatingInput1" label="Content" className="mb-3">
         <Form.Control type="text" placeholder="Content" name="content" value={formInput.content} onChange={handleChange} required />
       </FloatingLabel>
-      <Form.Group className="mb-3">
-        <Form.Label>Category</Form.Label>
-        <Form.Select
-          name="CategoryId"
-          onChange={handleChange}
-        >
-          <option value="">Select Category</option>
-          {
+      <FloatingLabel controlId="floatingSelect">
+        <Form.Group className="mb-3">
+          <Form.Label>Category</Form.Label>
+          <Form.Select
+            name="categoryId"
+            onChange={handleChange}
+          >
+            <option value="">Select Category</option>
+            {
             categories?.map((category) => (
               <option
                 defaultValue={category.id === formInput.categoryId}
@@ -86,30 +79,29 @@ export default function PostForm({ obj }) {
               </option>
             ))
           }
-        </Form.Select>
-      </Form.Group>
-
+          </Form.Select>
+        </Form.Group>
+      </FloatingLabel>
       <Button type="submit">{obj.id ? 'Update' : 'Create'} Post</Button>
     </Form>
   );
-}
+};
 
 PostForm.propTypes = {
+  user: PropTypes.shape({
+    uid: PropTypes.string,
+  }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
-    user_id: PropTypes.number,
-    category_id: PropTypes.number,
-    category: PropTypes.string,
+    categoryId: PropTypes.number,
     title: PropTypes.string,
-    publication_date: PropTypes.string,
-    image_url: PropTypes.string,
+    imageUrl: PropTypes.string,
     content: PropTypes.string,
-    approved: PropTypes.number,
-    // first_name: PropTypes.string,
-    // reaction_id: PropTypes.string,
   }),
 };
 
 PostForm.defaultProps = {
   obj: initialState,
 };
+
+export default PostForm;
