@@ -12,7 +12,6 @@ export default function PostsPage() {
   useEffect(() => {
     getSinglePost(id).then(setPostDetail);
   }, [id]);
-  console.log(postDetail);
   return (
     <div className="center-page">
       <PostsDetails key={id} postObj={postDetail} />

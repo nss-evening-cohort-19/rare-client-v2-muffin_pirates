@@ -12,7 +12,6 @@ export default function CommentsPage() {
   useEffect(() => {
     getCommentsByPost(postId).then(setComments);
   }, [postId]);
-  console.log(comments);
   return (
     <div className="d-flex flex-wrap">
       {comments.map((comment) => (
