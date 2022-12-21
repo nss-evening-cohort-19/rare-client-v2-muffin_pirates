@@ -50,7 +50,7 @@ const updatePost = (post) => new Promise((resolve, reject) => {
     user: post.user,
     category: Number(post.categoryId),
     title: post.title,
-    publication_date: post.publicationDate,
+    publicationDate: post.publication_date,
     image_url: post.imageUrl,
     content: post.content,
   };
