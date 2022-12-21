@@ -1,22 +1,22 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getSingleComment } from '../../api/commentData';
+import { getCommentsByPost } from '../../api/commentData';
 import CommentCard from '../../components/Comments/CommentCard';
 
 export default function CommentsPage() {
-  const [comments, setComments] = useState();
+  const [comments, setComments] = useState([]);
   const router = useRouter();
 
   const { postId } = router.query;
 
   useEffect(() => {
-    getSingleComment(postId).then(setComments);
+    getCommentsByPost(postId).then(setComments);
   }, [postId]);
   console.log(comments);
   return (
     <div className="d-flex flex-wrap">
       {comments.map((comment) => (
-        <CommentCard commentObj={comment} onUpdate={getSingleComment} />
+        <CommentCard key={comment.id} commentObj={comment} onUpdate={getCommentsByPost} />
       ))}
     </div>
   );

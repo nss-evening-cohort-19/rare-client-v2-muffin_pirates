@@ -12,11 +12,12 @@ const getSinglePost = (postId) => new Promise((resolve, reject) => {
     .then((response) => response.json())
     .then((data) => {
       resolve({
+        id: data.id,
         user: data.user,
-        category: data.category_id,
+        category: data.category,
         title: data.title,
         publicationDate: data.publication_date,
-        imagerl: data.image_url,
+        imageUrl: data.image_url,
         content: data.content,
       });
     })

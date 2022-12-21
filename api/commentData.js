@@ -21,6 +21,13 @@ const getSingleComment = (commentId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const getCommentsByPost = (postId) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/post-comments/${postId}/`)
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
 const createComment = (comment) => new Promise((resolve, reject) => {
   const commentObj = {
     author: comment.user,
@@ -66,5 +73,5 @@ const deleteComment = (id) => new Promise((resolve, reject) => {
 });
 
 export {
-  getComments, getSingleComment, createComment, updateComment, deleteComment,
+  getComments, getSingleComment, createComment, updateComment, deleteComment, getCommentsByPost,
 };

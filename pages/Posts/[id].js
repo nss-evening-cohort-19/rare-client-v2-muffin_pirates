@@ -12,10 +12,10 @@ export default function PostsPage() {
   useEffect(() => {
     getSinglePost(id).then(setPostDetail);
   }, [id]);
-  // console.log(postDetail);
+  console.log(postDetail);
   return (
     <div className="center-page">
-      <PostsDetails key={postDetail?.id} postObj={postDetail} />
+      <PostsDetails key={id} postObj={postDetail} />
     </div>
   );
 }
