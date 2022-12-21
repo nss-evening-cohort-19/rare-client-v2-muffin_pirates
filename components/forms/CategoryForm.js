@@ -32,10 +32,10 @@ export default function CategoryForm({ obj }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updateCategory(formInput, obj.id).then(() => router.push('/categories'));
+      updateCategory(formInput, obj.id).then(() => router.push('/Categories/categories'));
     } else {
       createCategory(formInput).then(() => {
-        router.push('/categories');
+        router.push('/Categories/categories');
       });
     }
   };
@@ -67,9 +67,6 @@ export default function CategoryForm({ obj }) {
 }
 
 CategoryForm.propTypes = {
-  // user: PropTypes.shape({
-  //   uid: PropTypes.string.isRequired,
-  // }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
     label: PropTypes.string,
