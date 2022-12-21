@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
-import CategoryCard from '../components/Categories/CategoryCard';
-import { getCategories } from '../api/categoryData';
+import CategoryCard from '../../components/Categories/CategoryCard';
+import { getCategories } from '../../api/categoryData';
 
 function Categories() {
   const [categories, setCategories] = useState([]);
