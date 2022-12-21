@@ -19,8 +19,6 @@ const initialState = {
 const PostForm = ({ obj, user }) => {
   const [categories, setCategories] = useState([]);
 
-  console.warn(obj, 'object');
-
   const [formInput, setFormInput] = useState(initialState);
   const router = useRouter();
 
@@ -42,7 +40,7 @@ const PostForm = ({ obj, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updatePost(user.uid, formInput, obj.id).then(() => router.push('/'));
+      updatePost(formInput, obj.id).then(() => router.push('/'));
     } else {
       const payload = { ...formInput, user: user.uid };
       createPost(payload).then(() => router.push('/'));
@@ -94,7 +92,7 @@ PostForm.propTypes = {
   }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
-    categoryId: PropTypes.number,
+    category: PropTypes.number,
     title: PropTypes.string,
     imageUrl: PropTypes.string,
     content: PropTypes.string,

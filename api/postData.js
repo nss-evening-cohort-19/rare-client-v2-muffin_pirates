@@ -12,11 +12,12 @@ const getSinglePost = (postId) => new Promise((resolve, reject) => {
     .then((response) => response.json())
     .then((data) => {
       resolve({
+        id: data.id,
         user: data.user,
-        category: data.category_id,
+        category: data.category.label,
         title: data.title,
         publicationDate: data.publication_date,
-        imagerl: data.image_url,
+        imageUrl: data.image_url,
         content: data.content,
       });
     })
@@ -47,10 +48,10 @@ const updatePost = (post) => new Promise((resolve, reject) => {
   const postObj = {
     id: post.id,
     user: post.user,
-    category: Number(post.category_id),
+    category: Number(post.categoryId),
     title: post.title,
-    publicationDate: post.publication_date,
-    imagerl: post.image_url,
+    publication_date: post.publicationDate,
+    image_url: post.imageUrl,
     content: post.content,
   };
   fetch(`${clientCredentials.databaseURL}/posts/${post.id}`, {
