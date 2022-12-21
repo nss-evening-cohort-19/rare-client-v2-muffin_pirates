@@ -18,7 +18,7 @@ function Home() {
       </Link>
       <div className="d-flex flex-wrap">
         {posts.map((post) => (
-          <PostCard postObj={post} onUpdate={getPosts} />
+          <PostCard key={post.id} postObj={post} onUpdate={getPosts} />
         ))}
       </div>
     </>
