@@ -14,11 +14,7 @@ const getSinglePost = (postId) => new Promise((resolve, reject) => {
       resolve({
         id: data.id,
         user: data.user,
-<<<<<<< HEAD
         category: data.category.label,
-=======
-        category: data.category,
->>>>>>> main
         title: data.title,
         publicationDate: data.publication_date,
         imageUrl: data.image_url,
