@@ -13,7 +13,6 @@ export default function EditPost() {
   useEffect(() => {
     getSinglePost(id).then(setEditPostItem);
   }, [id]);
-  console.log(editPostItem);
   return (
     <div className="create-form" style={{ height: '45rem', padding: '10%' }}>
       <PostForm obj={editPostItem} user={user.uid} categoryId={editPostItem.contegory?.id} />
