@@ -11,13 +11,16 @@ import { getCategories } from '../../api/categoryData';
 
 const initialState = {
   id: null,
-  category: ' ',
+  category: ({
+    id: 1,
+    label: '',
+  }),
   title: ' ',
   imageUrl: ' ',
   content: ' ',
 };
 
-const PostForm = ({ obj, user }) => {
+const PostForm = ({ obj, user, categoryId }) => {
   const [categories, setCategories] = useState([]);
 
   const [formInput, setFormInput] = useState(initialState);
@@ -41,13 +44,12 @@ const PostForm = ({ obj, user }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (obj.id) {
-      updatePost(user.uid, formInput, obj.id).then(() => router.push('/'));
+      updatePost(formInput, obj.id, user.uid, categoryId).then(() => router.push('/'));
     } else {
       const payload = { ...formInput, user: user.uid };
       createPost(payload).then(() => router.push('/'));
     }
   };
-
   return (
     <Form onSubmit={handleSubmit}>
       <h2 className="text-white mt-5">{obj.id ? 'Update' : 'Create'} Post</h2>
@@ -63,22 +65,13 @@ const PostForm = ({ obj, user }) => {
       <FloatingLabel controlId="floatingSelect">
         <Form.Group className="mb-3">
           <Form.Label>Category</Form.Label>
-          <Form.Select
-            name="categoryId"
-            onChange={handleChange}
-          >
-            <option value="">Select Category</option>
-            {
-            categories?.map((category) => (
-              <option
-                defaultValue={category.id === formInput.categoryId}
-                key={category.id}
-                value={category.id}
-              >
+          <Form.Select name="categoryId" defaultValue={categoryId} onChange={handleChange} label="Select Category">
+            {formInput.id ? <option value="">{formInput.category?.label}</option> : <option value="">Select Category</option>}
+            {categories.map((category) => (
+              <option key={category.id} value={category.id} defaultValue={category.id === formInput.categoryId}>
                 {category.label}
               </option>
-            ))
-          }
+            ))}
           </Form.Select>
         </Form.Group>
       </FloatingLabel>
@@ -93,15 +86,20 @@ PostForm.propTypes = {
   }).isRequired,
   obj: PropTypes.shape({
     id: PropTypes.number,
-    categoryId: PropTypes.number,
+    category: PropTypes.shape({
+      id: PropTypes.number,
+      label: PropTypes.string,
+    }),
     title: PropTypes.string,
     imageUrl: PropTypes.string,
     content: PropTypes.string,
   }),
+  categoryId: PropTypes.number,
 };
 
 PostForm.defaultProps = {
   obj: initialState,
+  categoryId: 1,
 };
 
 export default PostForm;
