@@ -25,7 +25,7 @@ export default function PostsDetails({ postObj }) {
           <Card.Text>
             By {postObj.user?.first_name} {postObj.user?.last_name}
           </Card.Text>
-          <Button href={`/Comments/${postObj.id}`}>View Comments</Button>
+          <Button href={`/Comments/posts/${postObj.id}`}>View Comments</Button>
           <div>
             <Badge pill bg="primary">
               😍
@@ -49,8 +49,11 @@ export default function PostsDetails({ postObj }) {
 
 PostsDetails.propTypes = {
   postObj: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    user: PropTypes.func.isRequired,
+    id: PropTypes.number,
+    user: PropTypes.shape({
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+    }),
     category: PropTypes.shape({
       id: PropTypes.number,
       label: PropTypes.string,
@@ -64,7 +67,8 @@ PostsDetails.propTypes = {
 PostsDetails.defaultProps = {
   postObj: ({
     category: ({
-      id: 1,
+      id: null,
+      label: '',
     }),
     title: '',
     publicationDate: '',
