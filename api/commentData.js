@@ -22,7 +22,7 @@ const getSingleComment = (commentId) => new Promise((resolve, reject) => {
 });
 
 const getCommentsByPost = (postId) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/post-comments/${postId}/`)
+  fetch(`${clientCredentials.databaseURL}/comments?post=${postId}`)
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);

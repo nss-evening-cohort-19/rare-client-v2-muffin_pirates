@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getCommentsByPost } from '../../api/commentData';
-import CommentCard from '../../components/Comments/CommentCard';
+import { getCommentsByPost } from '../../../api/commentData';
+import CommentCard from '../../../components/Comments/CommentCard';
 
 export default function CommentsPage() {
   const [comments, setComments] = useState([]);
